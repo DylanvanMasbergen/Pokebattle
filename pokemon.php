@@ -1,63 +1,73 @@
 <?php
 
-class Pokemon
+abstract class Pokemon
 {
-	public $name;
-	public $type;
-	public $hp;
-	public $resistance;
-	public $weakness;
-	public $attacks = [];
-	public $hitPoints;
-	
+	protected $name;
+	protected $hp;
+	protected $hitPoints;
+	private $data = array();
 
-	public function __construct($name, $type, $hp, $resistance, $weakness, $attacks)
+	protected function __construct($name, $hp)
 	{
 		$this->name = $name;
-		$this->type =$type;
 		$this->hp = $hp;
 		$this->hitPoints = $hp;
-		$this->resistance = $resistance;
-		$this->weakness = $weakness;
-		$this->attacks = $attacks;
 		
-		
-
 	}
 
-	public function attack($attack, $attacker, $defender)
+	public function __get($name)
 	{
+        return $this->$name;
+	}
 
-	 	  if ($attacker->type == $defender->weakness->name) {
-            echo " The attack was lethal!. ";
-            echo "<br>";
-            $attackDmg = $attack->attackDmg * $defender->weakness->multiplier;
-            echo $attackDmg.' dmg gedaan ';
+	public function setProperty($propertyName, $value)
+	{
+		$this->$propertyName = $value;
+	}
 
-            } else if ($attacker->type === $defender->resistance->name) {
-            echo "The attack sucked";
-            echo "<br>";
-            $attackDmg = $attack->attackDmg - $defender->resistance->resistance;
-            echo $attackDmg.' dmg gedaan ';
-
-
-	        } else {
-	            echo "The attack hit them but they are still able to fight back.";
-	            echo "<br>";
-	            $attackDmg = $attack->attackDmg;
-	        }
-
-	        //takes the amount of damage off the attacked pokemon's hitPoints
-        	$attack_result = $defender->hitPoints - $attackDmg;
-
-        	//puts all the results into $result1
-        	$result1 = [$attackDmg, $attack_result];
-
-        	//saves the result in the pokemon
-        	$defender->hitPoints = $attack_result;
-
-        	//returns the $result1 to the index.php 	
-
-        	return $result1;
+	public function doDmg($pokemon,$dmg)
+	{
+		$hitpoints = $pokemon->hitPoints - $dmg;
+		$pokemon->setProperty('hp',$hitpoints);
+		echo $pokemon->hp. 'hp left';
 	}
 }
+	class Pikachu extends Pokemon
+	{
+		protected $type;
+		protected $resistance;
+		protected $weakness;
+		protected $attacks = [];
+
+		public function __construct($name, $type, $hp, $resistance, $weakness, $attacks)
+		{
+			$this->name = $name;
+			$this->type =$type;
+			$this->resistance = $resistance;
+			$this->weakness = $weakness;
+			$this->attacks = $attacks;
+			
+		}
+
+	}
+
+	class Charmeleon extends Pokemon
+	{
+		protected $type;
+		protected $resistance;
+		protected $weakness;
+		protected $attacks = [];
+
+		public function __construct($name, $type, $hp, $resistance, $weakness, $attacks)
+		{
+			$this->name = $name;
+			$this->type =$type;
+			$this->resistance = $resistance;
+			$this->weakness = $weakness;
+			$this->attacks = $attacks;
+			
+		}
+	}
+
+
+
