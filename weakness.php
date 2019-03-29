@@ -5,9 +5,9 @@
 		public $name;
 		public $multiplier;
 
-		public function __construct($name, $multiplier)
+		public function __construct($weakness, $multiplier)
 		{
-			$this->name = $name;
+			$this->name = $weakness;
 			$this->multiplier = $multiplier;
 		}
 	}
